@@ -14,8 +14,8 @@ pipeline {
             }
             steps {
                 sh '''
-                mkdir -p $GOPATH/src/bitbucket.hylandqa.net/do/easycsr
-                ln -sf $WORKSPACE $GOPATH/src/bitbucket.hylandqa.net/do/easycsr
+                mkdir -p $GOPATH/src/bitbucket.hylandqa.net/do
+                ln -nsf $WORKSPACE $GOPATH/src/bitbucket.hylandqa.net/do/easycsr
                 cd $GOPATH/src/bitbucket.hylandqa.net/do/easycsr
                 make test
                 '''
@@ -31,8 +31,8 @@ pipeline {
             }
             steps {
                 sh '''
-                mkdir -p $GOPATH/src/bitbucket.hylandqa.net/do/easycsr
-                ln -sf $WORKSPACE $GOPATH/src/bitbucket.hylandqa.net/do/easycsr
+                mkdir -p $GOPATH/src/bitbucket.hylandqa.net/do
+                ln -nsf $WORKSPACE $GOPATH/src/bitbucket.hylandqa.net/do/easycsr
                 cd $GOPATH/src/bitbucket.hylandqa.net/do/easycsr
                 make build
                 '''
