@@ -41,6 +41,10 @@ func main() {
 		os.Exit(1)
 	}
 
+	if f, _ := os.Stat(args.KeyPath); f != nil && f.IsDir() {
+		panic("Key is a directory not a file")
+	}
+
 	if privateKey, csr, err := easycsr.Build(args); err != nil {
 		panic(err)
 	} else {
