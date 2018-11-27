@@ -2,15 +2,18 @@ GOCMD=go
 GOBUILD=$(GOCMD) build
 GOCLEAN=$(GOCMD) clean
 GOTEST=$(GOCMD) test
-GOGET=$(GOCMD) get
+GOMOD=$(GOCMD) mod
 
 DIST=./dist
 BINARY_NAME=easycsr
 BINARY_NAME_WINDOWS=$(BINARY_NAME).exe
 
-.PHONY: all build-prepare build build-unix build-windows test clean
+.PHONY: all restore build-prepare build build-unix build-windows test clean
 
-all: test build
+all: restore test build
+
+restore:
+	$(GOMOD) download
 
 build-prepare:
 	mkdir -p $(DIST)
