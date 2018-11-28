@@ -1,0 +1,22 @@
+spec:
+  containers:
+  - name: jnlp
+    image: hcr.io/jenkins/jnlp-slave:alpine
+  - name: gitversion
+    image: gittools/gitversion-dotnetcore:linux-4.0.1
+    command:
+      - cat
+    tty: true
+  - name: docker
+    image: docker
+    command:
+      - cat
+    tty: true
+    volumeMounts:
+      - mountPath: /var/run/docker.sock
+        name: docker-sock
+  volumes:
+    - name: docker-sock
+      hostPath:
+        path: /var/run/docker.sock
+        type: File
