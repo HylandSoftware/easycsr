@@ -4,10 +4,13 @@ import (
 	"crypto/x509"
 	"fmt"
 	"strings"
+
+	"github.com/spf13/viper"
 )
 
 // DecodeSignatureAlgorithm decodes a string to an x509.SignatureAlgorithm
-func DecodeSignatureAlgorithm(alg string) (x509.SignatureAlgorithm, error) {
+func DecodeSignatureAlgorithm() (x509.SignatureAlgorithm, error) {
+	alg := viper.GetString("signature-algorithm")
 	switch strings.ToLower(alg) {
 	case "sha256":
 		return x509.SHA256WithRSA, nil
