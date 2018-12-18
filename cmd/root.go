@@ -43,6 +43,9 @@ func Init() {
 
 	rootCmd.AddCommand(RSA)
 	initRSA()
+
+	rootCmd.AddCommand(ECDSA)
+	initECDSA()
 }
 
 func Execute() {

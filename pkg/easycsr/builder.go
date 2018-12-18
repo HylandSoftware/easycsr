@@ -25,7 +25,7 @@ func getSubnject() pkix.Name {
 	}
 }
 
-func buildCSR(privateKey interface{}) (string, error) {
+func buildCSR(privateKey interface{}, sigAlg x509.SignatureAlgorithm) (string, error) {
 	subject := getSubnject()
 
 	commonNameFound := false
@@ -42,11 +42,6 @@ func buildCSR(privateKey interface{}) (string, error) {
 	}
 
 	rawSubject, err := asn1.Marshal(subject.ToRDNSequence())
-	if err != nil {
-		return "", err
-	}
-
-	sigAlg, err := DecodeSignatureAlgorithm()
 	if err != nil {
 		return "", err
 	}
@@ -70,17 +65,19 @@ func buildCSR(privateKey interface{}) (string, error) {
 	return csrBuff.String(), nil
 }
 
-func Build(privateKey interface{}) error {
-	if csr, err := buildCSR(privateKey); err != nil {
-		panic(err)
+func Build(privateKey interface{}, sigAlg x509.SignatureAlgorithm) error {
+	if csr, err := buildCSR(privateKey, sigAlg); err != nil {
+		return err
 	} else {
 		outPath := viper.GetString("out")
 		if strings.TrimSpace(outPath) != "" {
 			if err := ioutil.WriteFile(outPath, []byte(csr), 0644); err != nil {
-				panic(err)
+				return err
 			}
 		}
 
 		fmt.Printf("Generated CSR:\n%s\n", csr)
 	}
+
+	return nil
 }

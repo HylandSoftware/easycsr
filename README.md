@@ -20,6 +20,7 @@ Usage:
   easycsr [command]
 
 Available Commands:
+  ecdsa       Generate an ECDSA Certificate Signing Request
   help        Help about any command
   rsa         Generate an RSA Certificate Signing Request
 

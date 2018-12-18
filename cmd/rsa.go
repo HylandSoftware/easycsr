@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"os"
-
 	"bitbucket.hylandqa.net/do/easycsr/pkg/easycsr"
 	"bitbucket.hylandqa.net/do/easycsr/pkg/easycsr/rsa"
 	"github.com/spf13/cobra"
@@ -13,17 +11,17 @@ var RSA = &cobra.Command{
 	Use:   "rsa",
 	Short: "Generate an RSA Certificate Signing Request",
 	Run: func(_ *cobra.Command, _ []string) {
-		keyPath := viper.GetString("key")
-		if f, _ := os.Stat(keyPath); f != nil && f.IsDir() {
-			panic("Key is a directory, not a file!")
-		}
-
-		key, err := rsa.LoadOrGeneratePrivateKey(keyPath)
+		key, err := rsa.LoadOrGeneratePrivateKey()
 		if err != nil {
 			panic(err)
 		}
 
-		if err := easycsr.Build(key); err != nil {
+		sigAlg, err := rsa.DecodeSignatureAlgorithm()
+		if err != nil {
+			panic(err)
+		}
+
+		if err := easycsr.Build(key, sigAlg); err != nil {
 			panic(err)
 		}
 	},
