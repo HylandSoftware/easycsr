@@ -21,10 +21,10 @@ build-prepare:
 build: build-unix build-windows
 
 build-unix: build-prepare
-	GOOS=linux GOARCH=amd64 $(GOBUILD) -o $(DIST)/$(BINARY_NAME) -v ./cmd/easycsr
+	GOOS=linux GOARCH=amd64 $(GOBUILD) -o $(DIST)/$(BINARY_NAME) -v ./main.go
 
 build-windows: build-prepare
-	GOOS=windows GOARCH=amd64 $(GOBUILD) -o $(DIST)/$(BINARY_NAME_WINDOWS) -v ./cmd/easycsr
+	GOOS=windows GOARCH=amd64 $(GOBUILD) -o $(DIST)/$(BINARY_NAME_WINDOWS) -v ./main.go
 
 test:
 	$(GOTEST) -v -cover ./...

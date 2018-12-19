@@ -3,4 +3,5 @@
 !cmd/
 !pkg/
 !go.*
+!*.go
 !Makefile
