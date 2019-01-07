@@ -14,7 +14,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-func getSubnject() pkix.Name {
+func getSubject() pkix.Name {
 	return pkix.Name{
 		CommonName:         viper.GetString("common-name"),
 		Country:            []string{viper.GetString("country")},
@@ -26,7 +26,7 @@ func getSubnject() pkix.Name {
 }
 
 func buildCSR(privateKey interface{}, sigAlg x509.SignatureAlgorithm) (string, error) {
-	subject := getSubnject()
+	subject := getSubject()
 
 	commonNameFound := false
 	sanList := viper.GetStringSlice("subject-alternate-names")
