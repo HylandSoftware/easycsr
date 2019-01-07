@@ -14,35 +14,36 @@ go build ./cmd/easycsr -o easycsr -v
 ## Usage
 
 ```text
-Usage of easycsr.exe:
-  -cn string
-        The common name (FQDN) for the certificate. Will be appended to the SAN list to conform with RFC2818 3.1
-  -country string
-        Subject Country (default "US")
-  -key string
-        The key file to use. If it does not exist, it will be created with the specified key size
-  -keyLength int
-        RSA Key Length in Bits, must be a power of 2 (default 2048)
-  -locality string
-        Subject Locality (default "Westlake")
-  -org string
-        Subject Organization (default "Hyland Software")
-  -ou string
-        Subject Organizational unit (default "Research & Development")
-  -out string
-        Where to save the CSR to. Printed to standard out if not specified
-  -san value
-        Subject Alternate Names
-  -signatureAlgorithm string
-        The algorithm to sign the CSR with (default "sha256")
-  -st string
-        Subject State (default "Ohio")
+easycsr simplifies the generation of Certificate Signing Requests by providing sane defaults and aiding in SAN generation
+
+Usage:
+  easycsr [command]
+
+Available Commands:
+  ecdsa       Generate an ECDSA Certificate Signing Request
+  help        Help about any command
+  rsa         Generate an RSA Certificate Signing Request
+
+Flags:
+      --common-name string           The common name (FQDN) for the certificate. Will be appended to the SAN list to conform with RFC2818 3.1
+      --country string               Subject Country (default "US")
+  -h, --help                         help for easycsr
+  -k, --key string                   The key file to use. If it does not exist, it will be created with the specified key size
+      --locality string              Subject Locality (default "Westlake")
+      --org string                   Subject Organization (default "Hyland Software")
+      --ou string                    Subject Organizational unit (default "Research & Development")
+      --out string                   Where to save the CSR to. Printed to standard out if not specified
+      --san strings                  Subject Alternate Names (The subject will automatically be appended to this list)
+      --signature-algorithm string   The algorithm to sign the CSR with (default "sha256")
+      --state string                 Subject State (default "Ohio")
+
+Use "easycsr [command] --help" for more information about a command.
 ```
 
 ### Example
 
 ```bash
-$ easycsr -key jenkins.hylandqa.net.key -cn jenkins.hylandqa.net -san '*.jenkins.hylandqa.net'
+$ easycsr rsa -k jenkins.hylandqa.net.key --common-name jenkins.hylandqa.net --san '*.jenkins.hylandqa.net'
 Generating new private key of length 2048
 Generated CSR:
 -----BEGIN CERTIFICATE REQUEST-----
@@ -72,7 +73,7 @@ If you do not have the `go` toolchain installed, you can use a pre-built docker
 image instead. Just mount your working directory to `/csr`:
 
 ```bash
-$ docker run -it --rm -v "$(pwd):/csr" hcr.io/do/easycsr -key jenkins.hylandqa.net.key -cn jenkins.hylandqa.net -san '*.jenkins.hylandqa.net'
+$ docker run -it --rm -v "$(pwd):/csr" hcr.io/do/easycsr rsa -k jenkins.hylandqa.net.key --common-name jenkins.hylandqa.net --san '*.jenkins.hylandqa.net'
 Unable to find image 'hcr.io/do/easycsr:latest' locally
 latest: Pulling from do/easycsr
 Digest: sha256:1a176b600019e29a6856a66617179fe4be1f990052e47a5a16a0be2d32fe6dc0
