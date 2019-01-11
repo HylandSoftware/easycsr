@@ -2,35 +2,23 @@ package easycsr
 
 import (
 	"bytes"
+	"crypto"
 	"crypto/rand"
 	"crypto/x509"
-	"crypto/x509/pkix"
 	"encoding/asn1"
 	"encoding/pem"
 	"fmt"
 	"io/ioutil"
 	"strings"
 
-	"github.com/spf13/viper"
+	"bitbucket.hylandqa.net/do/easycsr/cmd/args"
 )
 
-func getSubject() pkix.Name {
-	return pkix.Name{
-		CommonName:         viper.GetString("common-name"),
-		Country:            []string{viper.GetString("country")},
-		Province:           []string{viper.GetString("state")},
-		Locality:           []string{viper.GetString("locality")},
-		Organization:       []string{viper.GetString("org")},
-		OrganizationalUnit: []string{viper.GetString("ou")},
-	}
-}
-
-func buildCSR(privateKey interface{}, sigAlg x509.SignatureAlgorithm) (string, error) {
-	subject := getSubject()
+func buildCSR(privateKey crypto.PrivateKey, common *args.Common) (string, error) {
+	subject := common.BuildSubject()
 
 	commonNameFound := false
-	sanList := viper.GetStringSlice("san")
-	for _, san := range sanList {
+	for _, san := range common.SubjectAlternateNames {
 		if strings.ToLower(san) == strings.ToLower(subject.CommonName) {
 			commonNameFound = true
 			break
@@ -38,7 +26,7 @@ func buildCSR(privateKey interface{}, sigAlg x509.SignatureAlgorithm) (string, e
 	}
 
 	if !commonNameFound {
-		sanList = append(sanList, subject.CommonName)
+		common.SubjectAlternateNames = append(common.SubjectAlternateNames, subject.CommonName)
 	}
 
 	rawSubject, err := asn1.Marshal(subject.ToRDNSequence())
@@ -48,8 +36,8 @@ func buildCSR(privateKey interface{}, sigAlg x509.SignatureAlgorithm) (string, e
 
 	csrTemplate := x509.CertificateRequest{
 		RawSubject:         rawSubject,
-		SignatureAlgorithm: sigAlg,
-		DNSNames:           sanList,
+		SignatureAlgorithm: common.SignatureAlgorithm,
+		DNSNames:           common.SubjectAlternateNames,
 	}
 
 	csr, err := x509.CreateCertificateRequest(rand.Reader, &csrTemplate, privateKey)
@@ -65,13 +53,12 @@ func buildCSR(privateKey interface{}, sigAlg x509.SignatureAlgorithm) (string, e
 	return csrBuff.String(), nil
 }
 
-func Build(privateKey interface{}, sigAlg x509.SignatureAlgorithm) error {
-	if csr, err := buildCSR(privateKey, sigAlg); err != nil {
+func Build(privateKey interface{}, common *args.Common) error {
+	if csr, err := buildCSR(privateKey, common); err != nil {
 		return err
 	} else {
-		outPath := viper.GetString("out")
-		if strings.TrimSpace(outPath) != "" {
-			if err := ioutil.WriteFile(outPath, []byte(csr), 0644); err != nil {
+		if strings.TrimSpace(common.Out) != "" {
+			if err := ioutil.WriteFile(common.Out, []byte(csr), 0644); err != nil {
 				return err
 			}
 		}
