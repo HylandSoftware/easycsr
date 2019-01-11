@@ -17,6 +17,9 @@ var (
 		Long:    "easycsr simplifies the generation of Certificate Signing Requests by providing sane defaults and aiding in SAN generation",
 		Args:    cobra.NoArgs,
 		Version: version,
+		PersistentPostRun: func(cmd *cobra.Command, _ []string) {
+			args.TryPersistCommonArgs()
+		},
 	}
 )
 
