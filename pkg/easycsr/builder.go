@@ -29,7 +29,7 @@ func buildCSR(privateKey interface{}, sigAlg x509.SignatureAlgorithm) (string, e
 	subject := getSubject()
 
 	commonNameFound := false
-	sanList := viper.GetStringSlice("subject-alternate-names")
+	sanList := viper.GetStringSlice("san")
 	for _, san := range sanList {
 		if strings.ToLower(san) == strings.ToLower(subject.CommonName) {
 			commonNameFound = true
