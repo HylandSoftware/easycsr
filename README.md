@@ -25,17 +25,18 @@ Available Commands:
   rsa         Generate an RSA Certificate Signing Request
 
 Flags:
-      --common-name string           The common name (FQDN) for the certificate. Will be appended to the SAN list to conform with RFC2818 3.1
+  -n, --common-name string           The common name (FQDN) for the certificate. Will be appended to the SAN list to conform with RFC2818 3.1
       --country string               Subject Country (default "US")
   -h, --help                         help for easycsr
   -k, --key string                   The key file to use. If it does not exist, it will be created with the specified key size
-      --locality string              Subject Locality (default "Westlake")
-      --org string                   Subject Organization (default "Hyland Software")
-      --ou string                    Subject Organizational unit (default "Research & Development")
+      --locality string              Subject Locality
+      --org string                   Subject Organization
+      --ou string                    Subject Organizational unit
       --out string                   Where to save the CSR to. Printed to standard out if not specified
       --san strings                  Subject Alternate Names (The subject will automatically be appended to this list)
+      --save                         Save common settings as defaults
       --signature-algorithm string   The algorithm to sign the CSR with (default "sha256")
-      --state string                 Subject State (default "Ohio")
+      --state string                 Subject State
 
 Use "easycsr [command] --help" for more information about a command.
 ```
