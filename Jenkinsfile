@@ -18,6 +18,7 @@ pipeline {
                 }
             }
         }
+
         stage ("Build") {
             steps {
                 container('docker') {
@@ -25,6 +26,7 @@ pipeline {
                 }
             }
         }
+
         stage ("Push") {
             when {
                 branch 'master'

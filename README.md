@@ -5,7 +5,7 @@ This isn't exactly easy with OpenSSL, and this utility aims to make this as simp
 
 ## Building
 
-The easiest way to build this is via `make`. If you do not have access to `make`, you can build the command directly:
+This project requires Go 1.11+ or vgo for Go Modules support. It can be built like any standard Go binary:
 
 ```bash
 go build ./cmd/easycsr -o easycsr -v
