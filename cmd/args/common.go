@@ -35,14 +35,29 @@ var (
 )
 
 func (t *Common) BuildSubject() *pkix.Name {
-	return &pkix.Name{
-		CommonName:         t.CommonName,
-		Country:            []string{t.Country},
-		Province:           []string{t.State},
-		Locality:           []string{t.Locality},
-		Organization:       []string{t.Organization},
-		OrganizationalUnit: []string{t.OrganizationalUnit},
+	name := &pkix.Name{CommonName: t.CommonName}
+
+	if t.Country != "" {
+		name.Country = []string{t.Country}
 	}
+
+	if t.State != "" {
+		name.Province = []string{t.State}
+	}
+
+	if t.Locality != "" {
+		name.Locality = []string{t.Locality}
+	}
+
+	if t.Organization != "" {
+		name.Organization = []string{t.Organization}
+	}
+
+	if t.OrganizationalUnit != "" {
+		name.OrganizationalUnit = []string{t.OrganizationalUnit}
+	}
+
+	return name
 }
 
 func BindCommonArgs(flags *pflag.FlagSet) {
@@ -51,10 +66,6 @@ func BindCommonArgs(flags *pflag.FlagSet) {
 	fileSettings.AddConfigPath("$HOME")
 
 	fileSettings.SetDefault("country", "US")
-	fileSettings.SetDefault("state", "Ohio")
-	fileSettings.SetDefault("Locality", "Westlake")
-	fileSettings.SetDefault("org", "Hyland Software")
-	fileSettings.SetDefault("ou", "Research & Development")
 	fileSettings.SetDefault("signature-algorithm", "sha256")
 
 	if err := fileSettings.ReadInConfig(); err != nil {
@@ -112,18 +123,20 @@ func userHomeDir() string {
 }
 
 func TryPersistCommonArgs() {
-	if *shouldPersist {
-		fmt.Println("Saving config")
-		if fileSettings.ConfigFileUsed() == "" {
-			if f, err := os.Create(fmt.Sprintf("%s/.easycsr.yaml", userHomeDir())); err != nil {
-				panic("failed to create config file")
-			} else {
-				_ = f.Close()
-			}
-		}
+	if !*shouldPersist {
+		return
+	}
 
-		if err := fileSettings.WriteConfig(); err != nil {
-			panic(fmt.Sprintf("failed to write config: %s", err))
+	fmt.Println("Saving config")
+	if fileSettings.ConfigFileUsed() == "" {
+		if f, err := os.Create(fmt.Sprintf("%s/.easycsr.yaml", userHomeDir())); err != nil {
+			panic("failed to create config file")
+		} else {
+			_ = f.Close()
 		}
+	}
+
+	if err := fileSettings.WriteConfig(); err != nil {
+		panic(fmt.Sprintf("failed to write config: %s", err))
 	}
 }

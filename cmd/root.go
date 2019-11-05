@@ -23,7 +23,7 @@ var (
 	}
 )
 
-func Init() {
+func init() {
 	viper.SetEnvPrefix("easycsr")
 	viper.SetEnvKeyReplacer(strings.NewReplacer("-", "_"))
 	viper.AutomaticEnv()
