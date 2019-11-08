@@ -4,7 +4,7 @@ import (
 	"os"
 	"strings"
 
-	"bitbucket.hylandqa.net/do/easycsr/cmd/args"
+	"github.com/hylandsoftware/easycsr/cmd/args"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )

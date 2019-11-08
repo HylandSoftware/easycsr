@@ -11,7 +11,7 @@ import (
 	"io/ioutil"
 	"strings"
 
-	"bitbucket.hylandqa.net/do/easycsr/cmd/args"
+	"github.com/hylandsoftware/easycsr/cmd/args"
 )
 
 func buildCSR(privateKey crypto.PrivateKey, common *args.Common) (string, error) {

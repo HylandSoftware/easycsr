@@ -1,9 +1,9 @@
 package cmd
 
 import (
-	"bitbucket.hylandqa.net/do/easycsr/cmd/args"
-	"bitbucket.hylandqa.net/do/easycsr/pkg/easycsr"
-	"bitbucket.hylandqa.net/do/easycsr/pkg/easycsr/rsa"
+	"github.com/hylandsoftware/easycsr/cmd/args"
+	"github.com/hylandsoftware/easycsr/pkg/easycsr"
+	"github.com/hylandsoftware/easycsr/pkg/easycsr/rsa"
 	"github.com/spf13/cobra"
 )
 

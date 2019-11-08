@@ -11,7 +11,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	"bitbucket.hylandqa.net/do/easycsr/cmd/args"
+	"github.com/hylandsoftware/easycsr/cmd/args"
 )
 
 func LoadOrGeneratePrivateKey(common *args.Common, rsaArgs *args.RSA) (*rsa.PrivateKey, error) {
