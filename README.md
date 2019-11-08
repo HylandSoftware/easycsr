@@ -1,5 +1,7 @@
 # EasyCSR
 
+[![License](https://img.shields.io/badge/license-MIT-brightgreen)](./LICENSE) [![Go Report Card](https://goreportcard.com/badge/github.com/hylandsoftware/easycsr)](https://goreportcard.com/report/github.com/hylandsoftware/easycsr)
+
 Starting with Chrome 58, you need to include the subject common name of a certificate in the SAN list as well.
 This isn't exactly easy with OpenSSL, and this utility aims to make this as simple as possible.
 
@@ -74,11 +76,11 @@ If you do not have the `go` toolchain installed, you can use a pre-built docker
 image instead. Just mount your working directory to `/csr`:
 
 ```bash
-$ docker run -it --rm -v "$(pwd):/csr" hcr.io/do/easycsr rsa -k jenkins.hylandqa.net.key --common-name jenkins.hylandqa.net --san '*.jenkins.hylandqa.net'
-Unable to find image 'hcr.io/do/easycsr:latest' locally
-latest: Pulling from do/easycsr
+$ docker run -it --rm -v "$(pwd):/csr" hylandsoftware/easycsr rsa -k jenkins.hylandqa.net.key --common-name jenkins.hylandqa.net --san '*.jenkins.hylandqa.net'
+Unable to find image 'hylandsoftware/easycsr:latest' locally
+latest: Pulling from hylandsoftware/easycsr
 Digest: sha256:1a176b600019e29a6856a66617179fe4be1f990052e47a5a16a0be2d32fe6dc0
-Status: Downloaded newer image for hcr.io/do/easycsr:latest
+Status: Downloaded newer image for hylandsoftware/easycsr:latest
 Loading private key from jenkins.hylandqa.net.key
 Generated CSR:
 -----BEGIN CERTIFICATE REQUEST-----
