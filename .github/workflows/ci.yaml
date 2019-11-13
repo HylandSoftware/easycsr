@@ -1,0 +1,44 @@
+name: CI
+on: [push, pull_request]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Set up Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.13
+
+      - name: Cache Go Modules
+        uses: actions/cache@v1
+        with:
+          path: ~/go/pkg/mod # $GOPATH doesn't seem to be set by actions/setup-go
+          key: ${{ runner.os }}-build-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+
+      - name: Run Tests
+        run: go test -v ./...
+
+  docker:
+    name: Docker
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Docker Build
+        run: docker build . -t hylandsoftware/easycsr:latest
+
+      - name: Docker Login
+        run: echo '${{ secrets.DOCKER_HUB }}' | docker login -u hylandsoftwarebuild --password-stdin
+
+      - name: Docker Push
+        run: docker push hylandsoftware/easycsr:latest

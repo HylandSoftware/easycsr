@@ -1,6 +1,6 @@
 # EasyCSR
 
-[![License](https://img.shields.io/badge/license-MIT-brightgreen)](./LICENSE) [![Go Report Card](https://goreportcard.com/badge/github.com/hylandsoftware/easycsr)](https://goreportcard.com/report/github.com/hylandsoftware/easycsr)
+![](https://github.com/hylandsoftware/easycsr/workflows/CI/badge.svg)  [![License](https://img.shields.io/badge/license-MIT-brightgreen)](./LICENSE) [![Go Report Card](https://goreportcard.com/badge/github.com/hylandsoftware/easycsr)](https://goreportcard.com/report/github.com/hylandsoftware/easycsr)
 
 Starting with Chrome 58, you need to include the subject common name of a certificate in the SAN list as well.
 This isn't exactly easy with OpenSSL, and this utility aims to make this as simple as possible.
