@@ -28,7 +28,7 @@ Available Commands:
 
 Flags:
   -n, --common-name string           The common name (FQDN) for the certificate. Will be appended to the SAN list to conform with RFC2818 3.1
-      --country string               Subject Country (default "US")
+      --country string               Subject Country
   -h, --help                         help for easycsr
   -k, --key string                   The key file to use. If it does not exist, it will be created with the specified key size
       --locality string              Subject Locality
