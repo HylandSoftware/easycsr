@@ -65,7 +65,6 @@ func BindCommonArgs(flags *pflag.FlagSet) {
 	fileSettings.AddConfigPath(".")
 	fileSettings.AddConfigPath("$HOME")
 
-	fileSettings.SetDefault("country", "US")
 	fileSettings.SetDefault("signature-algorithm", "sha256")
 
 	if err := fileSettings.ReadInConfig(); err != nil {
