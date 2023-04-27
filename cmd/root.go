@@ -29,6 +29,8 @@ func init() {
 	viper.AutomaticEnv()
 
 	args.BindCommonArgs(rootCmd.PersistentFlags())
+	rootCmd.MarkPersistentFlagRequired("key")
+	rootCmd.MarkPersistentFlagRequired("common-name")
 
 	rootCmd.AddCommand(RSA)
 	initRSA()
